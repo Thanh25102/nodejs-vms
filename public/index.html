@@ -1,42 +1,200 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HLS Stream</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-wrapper {
+            position: relative;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, border-color 0.3s;
+            display: none; /* Hidden by default */
+            padding: 10px; /* Add padding around each video block */
+        }
+
+        .video-wrapper.visible {
+            display: block; /* Make visible when focused */
+        }
+
+        .video-wrapper.focused {
+            transform: scale(1.1);
+            border: 3px solid red;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .camera-name {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            z-index: 2;
+        }
+
+        .timeline {
+            margin-top: 10px; /* Space between the video and timeline */
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .timeline span {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
-    <video id="camera1" controls width="640" height="360"></video>
-    <video id="camera2" controls width="640" height="360"></video>
-    <video id="camera4" controls width="640" height="360"></video>
-    <video id="camera5" controls width="640" height="360"></video>
-    <video id="camera3" controls width="640" height="360"></video>
+    <div class="header">
+        <h1>HLS Camera Streams</h1>
+    </div>
+
+    <div class="video-container" id="videoContainer">
+        <div class="video-wrapper" id="wrapper-camera1">
+            <div class="camera-name">Camera 1</div>
+            <video id="camera1" controls muted></video>
+            <!-- <div class="timeline">
+                <span>00:00</span>
+                <span>12:00</span>
+                <span>24:00</span>
+            </div> -->
+        </div>
+        <div class="video-wrapper" id="wrapper-camera2">
+            <div class="camera-name">Camera 2</div>
+            <video id="camera2" controls muted></video>
+            <!-- <div class="timeline">
+                <span>00:00</span>
+                <span>12:00</span>
+                <span>24:00</span>
+            </div> -->
+        </div>
+        <div class="video-wrapper" id="wrapper-camera3">
+            <div class="camera-name">Camera 3</div>
+            <video id="camera3" controls muted></video>
+            <!-- <div class="timeline">
+                <span>00:00</span>
+                <span>12:00</span>
+                <span>24:00</span>
+            </div> -->
+        </div>
+        <div class="video-wrapper" id="wrapper-camera4">
+            <div class="camera-name">Camera 4</div>
+            <video id="camera4" controls muted></video>
+            <!-- <div class="timeline">
+                <span>00:00</span>
+                <span>12:00</span>
+                <span>24:00</span>
+            </div> -->
+        </div>
+        <div class="video-wrapper" id="wrapper-camera5">
+            <div class="camera-name">Camera 5</div>
+            <video id="camera5" controls muted></video>
+            <!-- <div class="timeline">
+                <span>00:00</span>
+                <span>12:00</span>
+                <span>24:00</span>
+            </div> -->
+        </div>
+    </div>
 
     <script>
-       const createVideo = (id) => {
-    var video = document.getElementById(id);
-    if (Hls.isSupported()) {
-        var hls = new Hls();
-        hls.loadSource(`http://localhost:3002/videos/${id}/${id}.m3u8`);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-            video.play();
-        });
-        
-        hls.on(Hls.Events.ERROR, function(event, data) {
-            console.error(`Error in ${id}:`, data);
-        });
-    } else if (video.canPlayType('applicaion/vnd.apple.mpegurl')) {
-        video.src = `http://localhost:3002/videos/${id}/${id}.m3u8`;
-        video.addEventListener('canplay', function () {
-            video.play();
-        });
-    }
-}
+        const createVideo = (id) => {
+            const video = document.getElementById(id);
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(`http://10.6.5.34:3002/videos/${id}/${id}.m3u8`);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                    video.play();
+                });
 
+                hls.on(Hls.Events.ERROR, function (event, data) {
+                    console.error(`Error in ${id}:`, data);
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = `http://10.6.5.34:3002/videos/${id}/${id}.m3u8`;
+                video.addEventListener('canplay', function () {
+                    video.play();
+                });
+            }
+        };
 
         [1, 2, 3, 4, 5].forEach(id => createVideo(`camera${id}`));
+
+        const socket = new WebSocket('ws://10.6.5.34:3002');
+
+        socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.action === 'focus') {
+                focusCamera(data.cameraId);
+            } else if (data.action === 'defocus') {
+                defocusCamera(data.cameraId);
+            }
+        };
+
+        const focusCamera = (cameraId) => {
+            const videoWrapper = document.getElementById(`wrapper-${cameraId}`);
+            if (videoWrapper) {
+                videoWrapper.classList.add('visible');
+                videoWrapper.classList.add('focused');
+                videoWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        };
+
+        const defocusCamera = (cameraId) => {
+            const videoWrapper = document.getElementById(`wrapper-${cameraId}`);
+            if (videoWrapper) {
+                videoWrapper.classList.remove('focused');
+            }
+        };
     </script>
 </body>
 

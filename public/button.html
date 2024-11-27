@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP Web Server</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>ESP Web Server</h1>
+    <button id="statusButton">View /status.xml</button>
+
+    <div class="relay-container">
+        <div class="relay">
+            <label>Relay #1 - GPIO 12</label>
+            <label class="switch">
+                <input type="checkbox" id="camera1">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="relay">
+            <label>Relay #2 - GPIO 18</label>
+            <label class="switch">
+                <input type="checkbox" id="camera2">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="relay">
+            <label>Relay #3 - GPIO 19</label>
+            <label class="switch">
+                <input type="checkbox" id="camera3">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="relay">
+            <label>Relay #4 - GPIO 21</label>
+            <label class="switch">
+                <input type="checkbox" id="camera4">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="relay">
+            <label>Relay #5 - GPIO 22</label>
+            <label class="switch">
+                <input type="checkbox" id="camera5">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="relay">
+            <label>Relay #6 - GPIO 23</label>
+            <label class="switch">
+                <input type="checkbox" id="camera6">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="relay">
+            <label>Relay #7 - GPIO 32</label>
+            <label class="switch">
+                <input type="checkbox" id="camera7">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="relay">
+            <label>Relay #8 - GPIO 33</label>
+            <label class="switch">
+                <input type="checkbox" id="camera8">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
